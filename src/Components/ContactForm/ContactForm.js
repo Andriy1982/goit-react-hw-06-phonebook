@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import PropTypes from 'prop-types';
-// import { v4 as uuidv4 } from 'uuid';
 import actions from '../../redux/contacts/contacts-action';
+import { getContacts } from '../../redux/contacts/contacts-selector';
 
 import {
   Form,
@@ -14,6 +14,7 @@ import {
 function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handleInput = ({ target: { name, value } }) => {
@@ -29,8 +30,15 @@ function ContactForm() {
     }
   };
 
+  const isContactAlready = () =>
+    contacts.some(contact => contact.name === name);
+
   const handleSubmit = e => {
     e.preventDefault();
+    if (isContactAlready()) {
+      alert(`${name} is already in contacts!`);
+      return;
+    }
     dispatch(actions.addContact(name, number));
     setName('');
     setNumber('');

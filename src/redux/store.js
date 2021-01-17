@@ -1,35 +1,43 @@
 import { createStore, combineReducers } from 'redux';
 import contacts from './contacts/contacts-reducer';
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
-// const addTodo = text => ({
-//   type: types.ADD,
-//   payload: {
-//     id: shortid.generate(),
-//     text,
-//     completed: false,
-//   },
-// });
+const persistConfig = {
+  key: 'contacts',
+  storage,
+};
 
-// const addContact = contact => {
-//     setContacts(state => {
-//       if (state.some(el => el.name === contact.name)) {
-//         alert(`${contact.name} is already in contacts!`);
-//         return;
-//       }
-//       return [...state, contact];
-//     });
-//   };
-
-// const rootReducer = (state, action) => state;
+const contactsPersistConfig = {
+  key: 'contacts',
+  storage,
+  blacklist: ['filter'],
+};
 
 const store = configureStore({
   reducer: {
-    contacts,
+    contacts: persistReducer(contactsPersistConfig, contacts),
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 });
 
-export default store;
+const persistor = persistStore(store);
+
+export default { store, persistor };
 
 // {
 //     contacts: {

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../redux/contacts/contacts-action';
+import { visibleContacts } from '../../redux/contacts/contacts-selector';
 // import PropTypes from 'prop-types';
 
 import { List, ListItem } from './ContactsStyledComponent';
 
 function Contacts() {
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(visibleContacts);
   const dispatch = useDispatch();
   return (
     <List>
@@ -29,7 +30,7 @@ function Contacts() {
 }
 
 // Contacts.propTypes = {
-//   onDeleteContact: PropTypes.func.isRequired,
+//   dispatch: PropTypes.func.isRequired,
 //   contacts: PropTypes.arrayOf(
 //     PropTypes.exact({
 //       id: PropTypes.string.isRequired,
