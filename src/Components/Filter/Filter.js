@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import actions from '../../redux/contacts/contacts-action';
-// import PropTypes from 'prop-types';
 import { FilterContainer } from './FilterStyledComponents';
 import { getFilter } from '../../redux/contacts/contacts-selector';
 
@@ -19,10 +18,5 @@ function Filter() {
     </FilterContainer>
   );
 }
-
-// Filter.propTypes = {
-//   name: PropTypes.string.isRequired,
-//   onChangeFilter: PropTypes.func,
-// };
 
 export default Filter;
